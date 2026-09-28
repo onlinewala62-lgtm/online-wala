@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Online Wala Digital CSC</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:#f4f7fb;color:#0f172a}
+.top{height:64px;background:linear-gradient(135deg,#0b1f33,#0f4c81,#0ea5a8);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:sticky;top:0;z-index:50}
+.logo{font-weight:800;font-size:21px}.logo small{display:block;font-size:11px;font-weight:400}
+.menu{font-size:0;width:42px;height:42px;border:0;border-radius:12px;background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.menu:before{content:'≡';font-size:25px;line-height:1}
+.wrap{max-width:1180px;margin:28px auto;padding:0 15px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px;box-shadow:0 14px 36px rgba(15,23,42,.08);margin-bottom:20px}
+.login{max-width:420px;margin:65px auto;text-align:center}.inp,input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #dbe3ef;border-radius:12px;background:#fff;min-height:44px;outline:none}.inp:focus,input:focus,select:focus,textarea:focus{border-color:#38b2ac;box-shadow:0 0 0 4px rgba(56,178,172,.14)}textarea{resize:vertical}
+.btn{background:#0f6f9f;color:#fff;border:0;border-radius:12px;padding:12px 18px;font-weight:700;cursor:pointer}.btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(37,99,235,.16)}
+.link{border:0;background:none;color:#0f6f9f;cursor:pointer;font-weight:700}.hide{display:none!important}
+.head{display:flex;justify-content:space-between;align-items:center;gap:15px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.box{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px;min-height:132px;display:flex;flex-direction:column;justify-content:flex-start;cursor:pointer;transition:.2s}.box:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(30,64,175,.10);border-color:#7dd3c7}.box .icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:#eff6ff;color:#0f6f9f;margin-bottom:8px;font-size:21px}.box h3{font-size:15px;line-height:1.25;margin:3px 0 5px}.box p{margin:0;color:#64748b;font-size:11.5px;line-height:1.35}
+.customer-welcome,.officer-title{background:linear-gradient(135deg,#0b1f33,#0f4c81,#0ea5a8);color:#fff;border-radius:16px;padding:17px;margin-bottom:18px}.officer-title{background:linear-gradient(135deg,#0b1f33,#0f4c81)}.customer-welcome h1,.officer-title h1{margin:0 0 5px;color:#fff}.customer-welcome p,.officer-title p{margin:0;color:#dbeafe}.welcome-avatar{width:52px;height:52px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:27px;overflow:hidden;cursor:pointer;border:3px solid rgba(255,255,255,.7);box-shadow:0 5px 18px rgba(0,0,0,.18)}.welcome-avatar img{width:100%;height:100%;object-fit:cover}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}.stat{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px;box-shadow:0 9px 25px rgba(15,23,42,.06)}.stat b{display:block;font-size:23px;color:#0f6f9f;margin-top:5px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:10px}.wide{grid-column:1/-1}.row{border-bottom:1px solid #e7ebf0;padding:13px 0;display:flex;justify-content:space-between;align-items:center;gap:10px}.tag{background:#fff0c2;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}.doc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}.doc-item{background:#fff;border:1px solid #dbe3ef;border-radius:14px;padding:14px}.doc-item img{width:100%;height:130px;object-fit:cover;border-radius:10px;margin-top:8px}.doc-item small{color:#64748b}.subpanel{background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;margin-top:18px}
+.profile-card{display:flex;align-items:center;gap:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:12px;margin-bottom:14px}.profile-avatar{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e6f7f6;color:#0f6f9f;font-size:22px;overflow:hidden}.profile-avatar img{width:100%;height:100%;object-fit:cover}.profile-info h3{margin:0 0 4px;font-size:16px}.profile-info p{margin:4px 0;color:#64748b;font-size:12px}
+.footer{margin-top:35px;background:#0f172a;color:#cbd5e1;padding:25px 16px;text-align:center}.footer b{color:#fff;font-size:18px}.footer small{display:block;margin-top:7px;color:#94a3b8}
+.toast{position:fixed;right:18px;bottom:18px;z-index:9999;max-width:360px;background:#0f172a;color:#fff;padding:13px 16px;border-radius:12px;box-shadow:0 12px 35px rgba(0,0,0,.22);font-size:13px;line-height:1.45;display:none}.toast.show{display:block;animation:toastIn .18s ease-out}@keyframes toastIn{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+.modal-back{position:fixed;inset:0;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:9998}.modal{width:min(520px,100%);background:#fff;border-radius:18px;padding:20px;box-shadow:0 25px 70px rgba(0,0,0,.25)}
+@media(max-width:850px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.form{grid-template-columns:1fr}.wide{grid-column:auto}.head{align-items:flex-start}.stat-grid{grid-template-columns:1fr 1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.box{padding:11px;min-height:122px}.box h3{font-size:14px}.box p{font-size:10.5px}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.wrap{padding:0 10px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="logo">ONLINE WALA<small>Digital CSC Services</small></div>
+  <button class="menu" aria-label="Menu" onclick="toggleMenu()">☰</button>
+</header>
+
+<div id="menuPanel" class="card hide" style="position:fixed;right:16px;top:64px;width:250px;z-index:100;padding:9px">
+  <button class="link" style="display:block;width:100%;text-align:left;padding:12px" onclick="offLogin()">Admin Login</button>
+  <button class="link" style="display:block;width:100%;text-align:left;padding:12px" onclick="centerLoginPage()">Janseva Kendra Login</button>
+  <button class="link" style="display:block;width:100%;text-align:left;padding:12px" onclick="setLang('en')">English</button>
+  <button class="link" style="display:block;width:100%;text-align:left;padding:12px" onclick="setLang('hi')">हिन्दी</button>
+  <button class="link" style="display:block;width:100%;text-align:left;padding:12px" onclick="showBusinessContact()">Contact</button>
+</div>
+
+<main class="wrap">
+  <section id="clog" class="card login">
+    <h1 style="font-size:22px;margin-bottom:10px">Customer Login</h1>
+    <p>Mobile Number और Password से login करें</p>
+    <input id="cm" class="inp" placeholder="Mobile Number" maxlength="10" inputmode="numeric">
+    <input id="cpLoginPass" type="password" class="inp" placeholder="Password" autocomplete="current-password">
+    <button class="btn" onclick="customer()">LOGIN</button>
+    <p>New customer? <button class="link" onclick="reg()">Register Now</button></p>
+    <p><small style="color:#64748b">Password भूल गए हैं तो Register Now से नया password सेट करें।</small></p>
+  </section>
+
+  <section id="customerRegister" class="card login hide">
+    <h1 style="font-size:22px;margin-bottom:10px">Customer Registration</h1>
+    <p style="color:#64748b">Mobile Number और password बनाकर account तैयार करें</p>
+    <input id="crMobile" class="inp" placeholder="Mobile Number" maxlength="10" inputmode="numeric">
+    <input id="crName" class="inp" placeholder="Full Name">
+    <input id="crPass" type="password" class="inp" placeholder="Create Password (minimum 6 characters)" autocomplete="new-password">
+    <input id="crPass2" type="password" class="inp" placeholder="Confirm Password" autocomplete="new-password">
+    <button class="btn" onclick="registerCustomerAccount()">CREATE ACCOUNT</button>
+    <br><br><button class="link" onclick="home()">← Back to Login</button>
+  </section>
+
+  <section id="cdash" class="hide">
+    <div class="customer-welcome">
+      <div class="head">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="welcome-avatar" id="welcomeAvatar" onclick="openCustomerProfile()">👤</div>
+          <div><h1 id="welcomeCustomerName">Customer Profile</h1><p>अपनी profile update करें</p></div>
+        </div>
+        <button class="btn" onclick="logoutCustomer()">Logout</button>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-bottom:20px">
+      <div class="box" onclick="showCustomerServices()"><div class="icon">🗂️</div><h3>All Services</h3><p>Aadhaar, PAN, certificates, scholarship और more</p></div>
+      <div class="box" onclick="showApplications()"><div class="icon">📋</div><h3>My Applications</h3><p>Application और status देखें</p></div>
+      <div class="box" onclick="showDocumentUpload()"><div class="icon">📤</div><h3>Document Upload</h3><p>Required documents की image upload करें</p></div>
+      <div class="box" onclick="openNearbyCenters()"><div class="icon">📍</div><h3>Nearby Janseva Kendra</h3><p>Center select करें</p></div>
+      <div class="box" onclick="openSelectedCenterMessage()"><div class="icon">💬</div><h3>Message Center</h3><p>Selected center से बात करें</p></div>
+      <div class="box" onclick="openDocumentLocker()"><div class="icon">🔐</div><h3>Document Locker</h3><p>Documents सुरक्षित रखें</p></div>
+      <div class="box" onclick="openRequests()"><div class="icon">📨</div><h3>Service Requests</h3><p>Center requests का status</p></div>
+      <div class="box" onclick="openAppointments()"><div class="icon">📅</div><h3>Appointments</h3><p>Center visit का time चुनें</p></div>
+      <div class="box" onclick="openPayments()"><div class="icon">₹</div><h3>Payments</h3><p>Fees और payment history</p></div>
+      <div class="box" onclick="openComplaints()"><div class="icon">?</div><h3>Help & Complaints</h3><p>Complaint ticket बनाएं</p></div>
+      <div class="box" onclick="openReviews()"><div class="icon">★</div><h3>My Reviews</h3><p>Center को review दें</p></div>
+      <div class="box" onclick="repeatService()"><div class="icon">↻</div><h3>Repeat Service</h3><p>पहले वाली service फिर लें</p></div>
+      <div class="box" onclick="openCustomerNotifications()"><div class="icon">🔔</div><h3>Notifications</h3><p>Application और center updates</p></div>
+      <div class="box" onclick="openCustomerProfile()"><div class="icon">👤</div><h3>My Profile</h3><p>Customer details update करें</p></div>
+      <div class="box" onclick="showBusinessContact()"><div class="icon">📞</div><h3>Contact</h3><p>Online Wala से संपर्क करें</p></div>
+    </div>
+
+    <div id="customerServicesPanel" class="card"><div class="head"><div><h2>🗂️ All Services</h2><p>Choose a service to apply</p></div></div><div id="services" class="grid"></div></div>
+    <div id="customerUploadPanel" class="card hide"><div class="head"><div><h2>📤 Document Upload</h2><p>Service चुनकर documents upload करें</p></div><button class="link" onclick="closePanel('customerUploadPanel')">✕ Close</button></div><div id="uploadFormBox"></div></div>
+    <div id="customerAppsPanel" class="card"><h2>📋 My Applications</h2><div id="myapps"></div></div>
+    <div id="nearbyPanel" class="card hide"><div class="head"><div><h2>📍 Nearby Janseva Kendra</h2><p>PIN या area से center खोजें</p></div><button class="link" onclick="closePanel('nearbyPanel')">✕ Close</button></div><div class="form"><input id="customerPin" placeholder="PIN Code" maxlength="6" inputmode="numeric"><input id="centerSearch" placeholder="Search center name / area"></div><button class="btn" onclick="findCenters()">🔎 Find Centers</button><div id="nearbyCentersList" style="margin-top:16px"></div></div>
+    <div id="lockerPanel" class="card hide"><div class="head"><div><h2>🔐 My Document Locker</h2><p>Documents reuse करने के लिए save करें</p></div><button class="link" onclick="closePanel('lockerPanel')">✕ Close</button></div><div class="form"><input id="lockerName" placeholder="Document Name"><input id="lockerFile" type="file" accept="image/*"></div><button class="btn" onclick="addLockerDocument()">➕ Save Document</button><div id="lockerList" class="doc-grid"></div></div>
+    <div id="requestsPanel" class="card hide"><div class="head"><div><h2>📨 Service Requests</h2><p>Selected center को भेजी requests</p></div><button class="link" onclick="closePanel('requestsPanel')">✕ Close</button></div><div id="customerRequestsList"></div></div>
+    <div id="customerProfilePanel" class="card hide"><div class="head"><div><h2>👤 My Profile</h2><p>Customer information</p></div><button class="link" onclick="closePanel('customerProfilePanel')">✕ Close</button></div><div class="profile-card"><div class="profile-avatar" id="customerAvatar">👤</div><div class="profile-info"><h3 id="profileMobileView">Customer</h3><span class="tag">Customer Account</span><div style="margin-top:10px"><label style="font-weight:700;font-size:13px">📷 Profile Photo</label><input id="cpPhoto" type="file" accept="image/*" onchange="previewCustomerPhoto(this)"><label style="font-weight:700;font-size:13px">😀 Profile Emoji</label><select id="cpEmoji" onchange="previewCustomerEmoji(this.value)"><option value="👤">👤 Default</option><option>🙂</option><option>😎</option><option>🤵</option><option>👨‍💼</option><option>🧑‍💻</option><option>⭐</option><option>❤️</option></select></div></div></div><div class="form"><input id="cpName" placeholder="Full Name"><input id="cpMobile" placeholder="Mobile Number" maxlength="10" readonly><input id="cpEmail" type="email" placeholder="Email Address"><input id="cpAadhaar" placeholder="Aadhaar Number"><input id="cpPin" placeholder="PIN Code" maxlength="6"><input id="cpAddress" class="wide" placeholder="Full Address"></div><button class="btn" onclick="saveCustomerProfile()">💾 Save Profile</button></div>
+    <div id="customerNotificationsPanel" class="card hide"><div class="head"><div><h2>🔔 Notifications</h2><p>Application और center updates</p></div><button class="link" onclick="closePanel('customerNotificationsPanel')">Close</button></div><div id="customerNotificationsList"></div></div>
+    <div id="customerMessagePanel" class="card hide"><div class="head"><div><h2>💬 Message Janseva Kendra</h2><p id="selectedCenterText"></p></div><button class="link" onclick="closePanel('customerMessagePanel')">✕ Close</button></div><div id="centerChatHistory"></div><textarea id="customerMessageText" placeholder="अपना message लिखें..."></textarea><input id="customerMessageImage" type="file" accept="image/*"><button class="btn" onclick="sendCustomerMessage()">📤 Send</button></div>
+    <div id="customerPaymentsPanel" class="card hide"><div class="head"><div><h2>Payments & Receipts</h2></div><button class="link" onclick="closePanel('customerPaymentsPanel')">Close</button></div><div id="customerPaymentsList"></div></div>
+    <div id="customerComplaintsPanel" class="card hide"><div class="head"><div><h2>Help & Complaints</h2><p>Selected center को complaint भेजें</p></div><button class="link" onclick="closePanel('customerComplaintsPanel')">Close</button></div><textarea id="complaintText" placeholder="अपनी समस्या लिखें..."></textarea><button class="btn" onclick="submitComplaint()">Submit Complaint</button><div id="customerComplaintsList"></div></div>
+    <div id="customerReviewsPanel" class="card hide"><div class="head"><div><h2>My Reviews</h2></div><button class="link" onclick="closePanel('customerReviewsPanel')">Close</button></div><select id="reviewRating"><option value="5">5 Stars</option><option value="4">4 Stars</option><option value="3">3 Stars</option><option value="2">2 Stars</option><option value="1">1 Star</option></select><textarea id="reviewText" placeholder="Center के बारे में review लिखें..."></textarea><button class="btn" onclick="submitReview()">Save Review</button><div id="customerReviewsList"></div></div>
+    <div id="customerAppointmentsPanel" class="card hide"><div class="head"><div><h2>Appointments</h2><p>Selected center के लिए appointment request</p></div><button class="link" onclick="closePanel('customerAppointmentsPanel')">Close</button></div><input id="apptDate" type="date"><input id="apptTime" type="time"><textarea id="apptNote" placeholder="Visit का कारण / note"></textarea><button class="btn" onclick="submitAppointment()">Request Appointment</button><div id="customerAppointmentsList"></div></div>
+    <div id="customerUtilityPanel" class="card hide"><div class="head"><h2 id="customerUtilityTitle">Panel</h2><button class="link" onclick="closePanel('customerUtilityPanel')">Close</button></div><div id="customerUtilityBody"></div></div>
+  </section>
+
+  <section id="centerlog" class="card login hide"><h1>Janseva Kendra Login</h1><p style="color:#64748b">Center ID और Password से login करें</p><input id="centerId" class="inp" placeholder="Center ID"><input id="centerPass" type="password" class="inp" placeholder="Password"><button class="btn" onclick="centerLogin()">LOGIN</button><br><br><button class="link" onclick="showCenterRegister()">Create New Center Account</button><br><br><button class="link" onclick="home()">← Customer Login</button></section>
+  <section id="centerRegister" class="card login hide"><h1>Create Center Account</h1><p style="color:#64748b">Janseva Kendra अपना account बनाए</p><input id="regCenterName" class="inp" placeholder="Center Name"><input id="regOwner" class="inp" placeholder="Operator / Owner Name"><input id="regMobile" class="inp" placeholder="Mobile Number" maxlength="10"><input id="regPin" class="inp" placeholder="PIN Code" maxlength="6"><input id="regArea" class="inp" placeholder="Full Address / Area"><input id="regId" class="inp" placeholder="Choose Center ID"><input id="regPass" type="password" class="inp" placeholder="Create Password (min 6)"><input id="regPass2" type="password" class="inp" placeholder="Confirm Password"><button class="btn" onclick="registerCenter()">Create Center Account</button><br><br><button class="link" onclick="centerLoginPage()">← Back to Center Login</button></section>
+
+  <section id="centerDash" class="hide">
+    <div class="officer-title"><div class="head"><div><h1 id="centerDashTitle">Janseva Kendra</h1><p id="centerDashMeta"></p><small>Customer communication और requests इस center तक रहेंगी।</small></div><button class="btn" onclick="logoutCenter()">Logout</button></div></div>
+    <div class="stat-grid"><div class="stat">📋 Requests<b id="centerReqCount">0</b></div><div class="stat">⏳ Pending<b id="centerPending">0</b></div><div class="stat">✅ Complete<b id="centerComplete">0</b></div><div class="stat">👥 Customers<b id="centerCustomers">0</b></div></div>
+    <div class="grid">
+      <div class="box" onclick="renderCenterRequests()"><div class="icon">📥</div><h3>Customer Requests</h3><p>Service requests और documents</p></div>
+      <div class="box" onclick="renderCenterCustomers()"><div class="icon">👥</div><h3>Customers</h3><p>इस center के customers</p></div>
+      <div class="box" onclick="renderCenterServices()"><div class="icon">🗂️</div><h3>Services</h3><p>Available services</p></div>
+      <div class="box" onclick="openCenterProfile()"><div class="icon">👤</div><h3>Center Profile</h3><p>Center information</p></div>
+      <div class="box" onclick="renderCenterMessages()"><div class="icon">💬</div><h3>Customer Messages</h3><p>Customers को reply करें</p></div>
+      <div class="box" onclick="openCenterAppointments()"><div class="icon">📅</div><h3>Appointments</h3><p>Visit requests manage करें</p></div>
+      <div class="box" onclick="openCenterComplaints()"><div class="icon">?</div><h3>Complaints</h3><p>Customer complaints manage करें</p></div>
+      <div class="box" onclick="openCenterStaff()"><div class="icon">👥</div><h3>Staff</h3><p>Operator staff manage करें</p></div>
+      <div class="box" onclick="openCenterReports()"><div class="icon">▥</div><h3>Reports</h3><p>Center activity report</p></div>
+      <div class="box" onclick="openCenterAccount()"><div class="icon">🔐</div><h3>Account & Security</h3><p>Center ID और password बदलें</p></div>
+    </div>
+    <div id="centerWorkPanel" class="card" style="margin-top:20px"><h2>📥 Center Work</h2><div id="centerWorkList"></div></div>
+    <div id="centerUtilityPanel" class="card hide"><div class="head"><h2 id="centerUtilityTitle">Center</h2><button class="link" onclick="closePanel('centerUtilityPanel')">Close</button></div><div id="centerUtilityBody"></div></div>
+  </section>
+
+  <section id="olog" class="card login hide"><h1>Officer Login</h1><input id="oid" class="inp" placeholder="Officer ID"><input id="op" type="password" class="inp" placeholder="Password"><button class="btn" onclick="officer()">LOGIN</button><br><br><button class="link" onclick="home()">← Customer Login</button></section>
+  <section id="odash" class="hide">
+    <div class="officer-title"><div class="head"><div><h1>Super Admin</h1><p>Admin ID: <b>Sarvjeet</b> · Network management</p></div><button class="btn" onclick="logoutOfficer()">Logout</button></div></div>
+    <div class="stat-grid"><div class="stat">🗂️ Services<b id="sc">0</b></div><div class="stat">📋 Applications<b id="ac">0</b></div><div class="stat">⏳ Pending<b id="pc">0</b></div><div class="stat">✅ Completed<b id="cc">0</b></div></div>
+    <div id="officerHome" class="grid">
+      <div class="box" onclick="openOfficer('services')"><div class="icon">🗂️</div><h3>Services Management</h3><p>Add, edit और delete services</p></div>
+      <div class="box" onclick="openOfficer('applications')"><div class="icon">📋</div><h3>Applications</h3><p>Customer applications देखें</p></div>
+      <div class="box" onclick="openOfficer('customers')"><div class="icon">👥</div><h3>Customers</h3><p>Registered customers</p></div>
+      <div class="box" onclick="openOfficer('centers')"><div class="icon">🏪</div><h3>Center Management</h3><p>Janseva Kendra manage करें</p></div>
+      <div class="box" onclick="openOfficer('documents')"><div class="icon">🖼️</div><h3>Documents</h3><p>Application documents</p></div>
+      <div class="box" onclick="openOfficer('notifications')"><div class="icon">🔔</div><h3>Notifications</h3><p>System activity</p></div>
+      <div class="box" onclick="openOfficer('payments')"><div class="icon">₹</div><h3>Payments</h3><p>Application fee records</p></div>
+      <div class="box" onclick="openOfficer('complaints')"><div class="icon">?</div><h3>Complaints</h3><p>Customer tickets</p></div>
+      <div class="box" onclick="openOfficer('reviews')"><div class="icon">★</div><h3>Reviews</h3><p>Customer feedback</p></div>
+      <div class="box" onclick="openOfficer('reports')"><div class="icon">▥</div><h3>Reports</h3><p>Network summary</p></div>
+      <div class="box" onclick="openOfficer('profile')"><div class="icon">👨‍💼</div><h3>Admin Profile</h3><p>Admin account</p></div>
+      <div class="box" onclick="openOfficer('settings')"><div class="icon">⚙️</div><h3>Settings</h3><p>Business settings</p></div>
+    </div>
+    <div id="offServices" class="subpanel hide"><div class="head"><h2>🗂️ Services Management</h2><button class="link" onclick="officerHome()">← Back</button></div><div class="grid"><div class="box" onclick="showAddService()"><div class="icon">➕</div><h3>Add New Service</h3><p>Create service</p></div><div class="box" onclick="showEditServices()"><div class="icon">✏️</div><h3>Edit / Delete</h3><p>Manage services</p></div></div><div id="addServiceBox" class="card hide"><h3>Add New Service</h3><div class="form"><input id="sn" placeholder="Service Name"><input id="cat" placeholder="Category"><input id="fee" type="number" placeholder="Fee ₹"><input id="time" placeholder="Processing Time"><input id="docs" class="wide" placeholder="Required Documents (comma separated)"><textarea id="desc" class="wide" placeholder="Service Description"></textarea></div><button class="btn" onclick="addService()">Save Service</button></div><div id="editServicesBox" class="card hide"><h3>Services List</h3><div id="os"></div></div><div id="serviceEditor" class="card hide"><h3>Edit Service</h3><input id="editServiceIndex" type="hidden"><div class="form"><input id="esn" placeholder="Service Name"><input id="ecat" placeholder="Category"><input id="efee" type="number" placeholder="Fee ₹"><input id="etime" placeholder="Processing Time"><input id="edocs" class="wide" placeholder="Required Documents"><textarea id="edesc" class="wide" placeholder="Description"></textarea></div><button class="btn" onclick="saveEditedService()">Save Changes</button></div></div>
+    <div id="offApplications" class="subpanel hide"><div class="head"><h2>📋 Applications</h2><button class="link" onclick="officerHome()">← Back</button></div><div id="apps"></div></div>
+    <div id="offCustomers" class="subpanel hide"><div class="head"><h2>👥 Customers</h2><button class="link" onclick="officerHome()">← Back</button></div><div id="customers"></div></div>
+    <div id="offCenters" class="subpanel hide"><div class="head"><h2>🏪 Center Management</h2><button class="link" onclick="officerHome()">← Back</button></div><div class="card"><h3>Add Janseva Kendra</h3><div class="form"><input id="cnName" placeholder="Center Name"><input id="cnOwner" placeholder="Operator Name"><input id="cnMobile" placeholder="Mobile Number" maxlength="10"><input id="cnPin" placeholder="PIN Code" maxlength="6"><input id="cnArea" class="wide" placeholder="Address / Area"><input id="cnId" placeholder="Center ID (optional)"><input id="cnPass" type="password" placeholder="Password (optional)"></div><button class="btn" onclick="addCenter()">Save Center</button></div><div class="card"><h3>Registered Centers</h3><div id="centerAdminList"></div></div></div>
+    <div id="offDocuments" class="subpanel hide"><div class="head"><h2>🖼️ Documents</h2><button class="link" onclick="officerHome()">← Back</button></div><div id="offDocumentsList" class="doc-grid"></div></div>
+    <div id="offNotifications" class="subpanel hide"><div class="head"><h2>🔔 Notifications</h2><button class="link" onclick="officerHome()">← Back</button></div><div id="offNotificationsList"></div></div>
+    <div id="offUtility" class="subpanel hide"><div class="head"><h2 id="offUtilityTitle">Admin</h2><button class="link" onclick="officerHome()">← Back</button></div><div id="offUtilityContent"></div></div>
+    <div id="offProfile" class="subpanel hide"><div class="head"><h2>👨‍💼 Admin Profile</h2><button class="link" onclick="officerHome()">← Back</button></div><div class="profile-card"><div class="profile-avatar">S</div><div class="profile-info"><h3>Sarvjeet</h3><span class="tag">Super Administrator</span><p>Online Wala Digital CSC</p></div></div><div class="form"><input value="Sarvjeet" readonly><input value="Super Admin" readonly><input id="newOfficerPass" type="password" placeholder="New Password"><input id="confirmOfficerPass" type="password" placeholder="Confirm New Password"></div><button class="btn" onclick="changeOfficerPassword()">Change Password</button></div>
+    <div id="offSettings" class="subpanel hide"><div class="head"><h2>⚙️ Settings</h2><button class="link" onclick="officerHome()">← Back</button></div><div class="form"><input id="setName" value="Online Wala"><input id="setMobile" value="8273631684"><input id="setAddress" class="wide" value="Rooppura Road, Ayana, Auraiya"></div><button class="btn" onclick="saveSettings()">Save Settings</button></div>
+  </section>
+</main>
+
+<footer class="footer"><b>ONLINE WALA</b><small>Digital CSC Services • 8273631684 • Rooppura Road, Ayana, Auraiya</small></footer>
+<div id="owToast" class="toast"></div>
+<div id="editCenterModal" class="modal-back hide"></div>
+
+<script>
+'use strict';
+const BASE_SERVICES=[
+ {n:'Aadhaar Services',c:'Identity',f:50,t:'Same Day',d:'Aadhaar / Mobile',x:'Aadhaar related services'},
+ {n:'PAN Card',c:'Documents',f:100,t:'2-7 Days',d:'Aadhaar, Photo, Mobile',x:'PAN application assistance'},
+ {n:'Income Certificate',c:'Certificates',f:50,t:'3-7 Days',d:'Aadhaar, Supporting document',x:'Online certificate application'},
+ {n:'Caste Certificate',c:'Certificates',f:50,t:'3-7 Days',d:'Aadhaar, Supporting document',x:'Online certificate application'},
+ {n:'Residence Certificate',c:'Certificates',f:50,t:'3-7 Days',d:'Aadhaar, Address proof',x:'Online certificate application'},
+ {n:'UP Scholarship',c:'Education',f:50,t:'As per portal',d:'Marksheet, Certificates, Bank Passbook',x:'Scholarship application assistance'},
+ {n:'PM-Kisan',c:'Government',f:30,t:'As per portal',d:'Aadhaar, Bank details',x:'PM-Kisan online assistance'},
+ {n:'Railway Ticket',c:'Travel',f:50,t:'Immediate',d:'Passenger details',x:'Railway booking assistance'}
+];
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+function toast(msg){const el=$('owToast');el.textContent=String(msg);el.classList.add('show');clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>el.classList.remove('show'),3200)}
+window.alert=toast;
+function readJSON(key,fallback){try{const v=JSON.parse(localStorage.getItem(key)||'null');return v??fallback}catch(e){return fallback}}
+function saveJSON(key,val){localStorage.setItem(key,JSON.stringify(val))}
+function hideAll(){['clog','customerRegister','cdash','centerlog','centerRegister','centerDash','olog','odash'].forEach(id=>$(id)?.classList.add('hide'))}
+function closePanel(id){$(id)?.classList.add('hide')}
+function home(){hideAll();$('clog').classList.remove('hide');$('menuPanel').classList.add('hide')}
+function toggleMenu(){$('menuPanel').classList.toggle('hide')}
+function offLogin(){hideAll();$('olog').classList.remove('hide');$('menuPanel').classList.add('hide')}
+function centerLoginPage(){hideAll();$('centerlog').classList.remove('hide');$('menuPanel').classList.add('hide')}
+function showCenterRegister(){hideAll();$('centerRegister').classList.remove('hide');$('menuPanel').classList.add('hide')}
+function setLang(l){localStorage.setItem('owLang',l);alert(l==='hi'?'हिन्दी चुनी गई':'English selected')}
+function getServices(){const s=readJSON('owS',null);return Array.isArray(s)&&s.length?s:BASE_SERVICES.map(x=>({...x}))}
+function saveServices(v){saveJSON('owS',v)}
+function getApps(){return readJSON('owA',[])}
+function saveApps(v){saveJSON('owA',v)}
+function getCustomers(){return readJSON('owCustomers',[])}
+function getRequests(){return readJSON('owRequests',[])}
+function saveRequests(v){saveJSON('owRequests',v)}
+function getCenters(){
+  let a=readJSON('owCenters',null);
+  if(Array.isArray(a)&&a.length)return a;
+  a=[
+    {id:'OWAYANA01',name:'Online Wala Janseva Kendra',owner:'Sarvjeet',mobile:'8273631684',pin:'206122',area:'Rooppura Road, Ayana, Auraiya',active:true,password:'2026'},
+    {id:'OWAURAIYA02',name:'Auraiya Janseva Kendra',owner:'Center Operator',mobile:'',pin:'206122',area:'Auraiya, Uttar Pradesh',active:true,password:'2026'}
+  ];saveJSON('owCenters',a);return a;
+}
+function saveCenters(v){saveJSON('owCenters',v)}
+function getCurrentCustomer(){const m=localStorage.getItem('owM')||'';return getCustomers().find(x=>x.m===m)||{m}}
+function registerCustomer(m,extra={}){
+ const a=getCustomers(),i=a.findIndex(x=>x.m===m);
+ if(i<0){a.push({m,name:extra.name||'',email:'',aadhaar:'',address:'',pin:'',emoji:'👤',password:extra.password||'',created:new Date().toLocaleString()})}
+ else if(extra.password!==undefined){a[i]={...a[i],password:extra.password,name:extra.name??a[i].name};}
+ saveJSON('owCustomers',a);
+}
+function customer(){
+ const m=($('cm').value||'').replace(/\D/g,''),p=$('cpLoginPass').value||'';
+ if(!/^\d{10}$/.test(m))return alert('Valid 10 digit mobile number डालें।');
+ if(!p)return alert('Password डालें।');
+ const c=getCustomers().find(x=>x.m===m);
+ if(!c)return alert('यह mobile number registered नहीं है। पहले Register Now करें।');
+ if(!c.password)return alert('इस account में password set नहीं है। Register Now से नया password सेट करें।');
+ if(c.password!==p)return alert('Mobile Number या Password गलत है।');
+ localStorage.setItem('owM',m);sessionStorage.setItem('owCustomerSession','1');showC();
+}
+function reg(){
+ hideAll();$('customerRegister').classList.remove('hide');$('menuPanel').classList.add('hide');
+ const old=($('cm').value||'').replace(/\D/g,'');if(old.length===10)$('crMobile').value=old;
+}
+function registerCustomerAccount(){
+ const m=($('crMobile').value||'').replace(/\D/g,''),name=($('crName').value||'').trim(),p=$('crPass').value||'',p2=$('crPass2').value||'';
+ if(!/^\d{10}$/.test(m))return alert('Valid 10 digit mobile number डालें।');
+ if(!name)return alert('Full Name डालें।');
+ if(p.length<6)return alert('Password minimum 6 characters का होना चाहिए।');
+ if(p!==p2)return alert('Password और Confirm Password match नहीं हैं।');
+ const existing=getCustomers().find(x=>x.m===m);
+ if(existing&&existing.password)return alert('यह mobile number पहले से registered है। Login करें।');
+ registerCustomer(m,{name,password:p});
+ localStorage.setItem('owM',m);sessionStorage.setItem('owCustomerSession','1');
+ $('crPass').value='';$('crPass2').value='';$('cm').value=m;$('cpLoginPass').value=p;
+ alert('Customer account successfully बन गया।');showC();
+}
+function logoutCustomer(){localStorage.removeItem('owM');sessionStorage.removeItem('owCustomerSession');localStorage.removeItem('owPreferredCenter');home()}
+function showC(){hideAll();$('cdash').classList.remove('hide');renderCustomer();}
+function renderCustomer(){renderCustomerProfile();renderServices();renderApps();renderCustomerRequests()}
+function showCustomerServices(){$('customerServicesPanel').classList.remove('hide');$('customerServicesPanel').scrollIntoView({behavior:'smooth'})}
+function showApplications(){$('customerAppsPanel').scrollIntoView({behavior:'smooth'});renderApps()}
+function renderServices(){
+ const a=getServices();
+ $('services').innerHTML=a.map((s,i)=>`<div class="box"><div class="icon">📄</div><h3>${esc(s.n)}</h3><p>${esc(s.x||'')}</p><p><b>₹${Number(s.f||0)}</b> · ${esc(s.t||'')}</p><button class="btn" style="margin-top:12px" onclick="startApplication(${i})">Apply Now</button></div>`).join('');
+}
+function renderApps(){const m=localStorage.getItem('owM')||'',a=getApps().filter(x=>x.m===m);$('myapps').innerHTML=a.length?a.slice().reverse().map(x=>`<div class="row"><div><b>${esc(x.s)}</b><br><small>${esc(x.id)} · ₹${Number(x.f||0)} · ${esc(x.date||'')} · ${esc(x.centerName||'No center')}</small></div><span class="tag">${esc(x.st||'Pending')}</span></div>`).join(''):'<p>No applications yet.</p>'}
+function startApplication(i){const s=getServices()[i];if(!s)return;const docs=(s.d||'').split(/[,;]+/).map(x=>x.trim()).filter(Boolean);$('customerUploadPanel').classList.remove('hide');$('customerUploadPanel').scrollIntoView({behavior:'smooth'});$('uploadFormBox').innerHTML=`<div class="subpanel"><h3>📝 ${esc(s.n)}</h3><p>सभी required documents की साफ image upload करें।</p><div class="doc-grid">${(docs.length?docs:['Required Documents']).map((d,j)=>`<div class="doc-item"><b>${j+1}. ${esc(d)}</b><input type="file" id="doc_${j}" accept="image/*" capture="environment"><small>Image only • Max 5 MB</small></div>`).join('')}</div><button class="btn" style="margin-top:16px" onclick="submitApplication(${i},${JSON.stringify(docs)})">📤 Submit Application</button></div>`}
+function showDocumentUpload(){const s=getServices();$('customerUploadPanel').classList.remove('hide');$('customerUploadPanel').scrollIntoView({behavior:'smooth'});$('uploadFormBox').innerHTML=`<div class="subpanel"><h3>Select Service</h3><select id="uploadServiceSelect" onchange="startApplication(Number(this.value))">${s.map((x,i)=>`<option value="${i}">${esc(x.n)}</option>`).join('')}</select><p>Service select करते ही document upload form खुलेगा।</p></div>`}
+function fileToDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
+async function submitApplication(i,docs){
+ const s=getServices()[i];if(!s)return;const centerId=localStorage.getItem('owPreferredCenter'),center=getCenters().find(c=>c.id===centerId&&c.active);if(!center)return alert('पहले Nearby Janseva Kendra से active center select करें।');
+ const required=docs.length?docs:['Required Documents'];const files=[];
+ for(let j=0;j<required.length;j++){const el=$('doc_'+j),f=el?.files?.[0];if(!f)return alert('Document upload करें: '+required[j]);if(!f.type.startsWith('image/'))return alert('केवल image file upload करें: '+required[j]);if(f.size>5*1024*1024)return alert('Image 5 MB से ज्यादा नहीं होनी चाहिए: '+required[j]);files.push({name:required[j],fileName:f.name,type:f.type,data:await fileToDataURL(f)})}
+ const m=localStorage.getItem('owM')||'',id='OW'+Date.now().toString().slice(-8),rid='REQ'+Date.now().toString().slice(-8),date=new Date().toLocaleString();
+ const app={id,m,s:s.n,f:Number(s.f||0),st:'Pending',date,documents:files,centerId:center.id,centerName:center.name};const apps=getApps();apps.push(app);saveApps(apps);
+ const rq=getRequests();rq.push({id:rid,applicationId:id,m,service:s.n,centerId:center.id,centerName:center.name,status:'Pending',date,documents:files});saveRequests(rq);
+ addCustomerNotification(m,`Application ${id} भेजी गई: ${s.n}`);closePanel('customerUploadPanel');renderCustomer();alert(`Application successfully भेजी गई।\nApplication No: ${id}\nCenter: ${center.name}`)
+}
+function addCustomerNotification(m,text){const k='owCustomerNotifications_'+m;const a=readJSON(k,[]);a.push({text,date:new Date().toLocaleString()});saveJSON(k,a)}
+function openCustomerNotifications(){const m=localStorage.getItem('owM')||'',a=readJSON('owCustomerNotifications_'+m,[]);$('customerNotificationsPanel').classList.remove('hide');$('customerNotificationsPanel').scrollIntoView({behavior:'smooth'});$('customerNotificationsList').innerHTML=a.length?a.slice().reverse().map(x=>`<div class="row"><div>${esc(x.text)}<br><small>${esc(x.date)}</small></div></div>`).join(''):'<p>No notifications.</p>'}
+function openNearbyCenters(){$('nearbyPanel').classList.remove('hide');$('nearbyPanel').scrollIntoView({behavior:'smooth'});findCenters()}
+function findCenters(){const pin=($('customerPin').value||'').trim(),q=($('centerSearch').value||'').toLowerCase();const list=getCenters().filter(c=>c.active&&(!pin||c.pin.includes(pin))&&(!q||(c.name+' '+c.area+' '+c.owner).toLowerCase().includes(q)));$('nearbyCentersList').innerHTML=list.length?list.map(c=>`<div class="row" style="align-items:flex-start"><div><b>🏪 ${esc(c.name)}</b><br><small>${esc(c.area)} · PIN ${esc(c.pin)} · ${esc(c.mobile||'')}</small></div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn" onclick="selectCenter('${esc(c.id)}')">Select</button><button class="link" onclick="callCenter('${esc(c.id)}')">Call</button><button class="link" onclick="openMap('${esc(c.area)}')">Directions</button></div></div>`).join(''):'<p>No active center found.</p>'}
+function selectCenter(id){const c=getCenters().find(x=>x.id===id&&x.active);if(!c)return;localStorage.setItem('owPreferredCenter',id);alert(c.name+' selected. अब नई applications और messages इसी center को भेजे जाएंगे।');renderCustomerRequests();openRequests()}
+function openRequests(){$('requestsPanel').classList.remove('hide');$('requestsPanel').scrollIntoView({behavior:'smooth'});renderCustomerRequests()}
+function renderCustomerRequests(){const m=localStorage.getItem('owM')||'',a=getRequests().filter(x=>x.m===m);$('customerRequestsList').innerHTML=a.length?a.slice().reverse().map(x=>`<div class="row"><div><b>${esc(x.service)}</b><br><small>${esc(x.id)} · ${esc(x.centerName)} · ${esc(x.date)}</small></div><span class="tag">${esc(x.status)}</span></div>`).join(''):'<p>No service requests yet.</p>'}
+function getLocker(){return readJSON('owLocker_'+(localStorage.getItem('owM')||''),[])}
+function saveLocker(v){saveJSON('owLocker_'+(localStorage.getItem('owM')||''),v)}
+function openDocumentLocker(){$('lockerPanel').classList.remove('hide');$('lockerPanel').scrollIntoView({behavior:'smooth'});renderLocker()}
+async function addLockerDocument(){const n=$('lockerName').value.trim(),f=$('lockerFile').files[0];if(!n||!f)return alert('Document name और image दोनों दें।');if(!f.type.startsWith('image/'))return alert('केवल image file।');if(f.size>5*1024*1024)return alert('Image max 5 MB।');const a=getLocker();a.push({id:'DOC'+Date.now(),name:n,fileName:f.name,data:await fileToDataURL(f),date:new Date().toLocaleString()});saveLocker(a);$('lockerName').value='';$('lockerFile').value='';renderLocker();alert('Document locker में save हो गया।')}
+function renderLocker(){const a=getLocker();$('lockerList').innerHTML=a.length?a.map((d,i)=>`<div class="doc-item"><b>${esc(d.name)}</b><br><small>${esc(d.fileName)} · ${esc(d.date)}</small><img src="${d.data}"><button class="link" onclick="deleteLockerDocument(${i})">🗑️ Delete</button></div>`).join(''):'<p>No documents saved.</p>'}
+function deleteLockerDocument(i){const a=getLocker();a.splice(i,1);saveLocker(a);renderLocker()}
+function openSelectedCenterMessage(){const id=localStorage.getItem('owPreferredCenter'),c=getCenters().find(x=>x.id===id&&x.active);if(!c)return alert('पहले Nearby Janseva Kendra में center select करें।');openCustomerChat(c.id)}
+function openCustomerChat(centerId){const c=getCenters().find(x=>x.id===centerId&&x.active);if(!c)return;localStorage.setItem('owPreferredCenter',centerId);$('customerMessagePanel').classList.remove('hide');$('selectedCenterText').textContent=`${c.name} · ${c.area}`;$('customerMessagePanel').scrollIntoView({behavior:'smooth'});renderCustomerChat(centerId)}
+function centerMessages(){return readJSON('owCenterMessages',[])}
+function renderCustomerChat(centerId){const m=localStorage.getItem('owM')||'',a=centerMessages().filter(x=>x.centerId===centerId&&x.m===m);$('centerChatHistory').innerHTML=a.length?a.map(x=>`<div class="row"><div><b>${x.from==='customer'?'You':'Center'}</b><br>${esc(x.text||'')}${x.image?`<br><img src="${x.image}" style="max-width:220px;border-radius:10px;margin-top:6px">`:''}</div><small>${esc(x.date||'')}</small></div>`).join(''):'<p>No messages yet.</p>'}
+async function sendCustomerMessage(){const id=localStorage.getItem('owPreferredCenter'),c=getCenters().find(x=>x.id===id&&x.active),text=$('customerMessageText').value.trim(),f=$('customerMessageImage').files[0];if(!c)return alert('पहले center select करें।');if(!text&&!f)return alert('Message या image दें।');let image='';if(f){if(!f.type.startsWith('image/'))return alert('केवल image भेजें।');if(f.size>5*1024*1024)return alert('Image max 5 MB।');image=await fileToDataURL(f)}const a=centerMessages();a.push({id:'CM'+Date.now(),centerId:id,centerName:c.name,m:localStorage.getItem('owM')||'',from:'customer',text,image,fileName:f?.name||'',date:new Date().toLocaleString()});saveJSON('owCenterMessages',a);$('customerMessageText').value='';$('customerMessageImage').value='';renderCustomerChat(id);alert('Message center को भेज दिया गया।')}
+function submitAppointment(){const c=getCenters().find(x=>x.id===localStorage.getItem('owPreferredCenter')&&x.active),d=$('apptDate').value,t=$('apptTime').value,n=$('apptNote').value.trim();if(!c)return alert('पहले center select करें।');if(!d||!t)return alert('Date और time चुनें।');const a=readJSON('owAppointments',[]);a.push({id:'APT'+Date.now(),m:localStorage.getItem('owM')||'',centerId:c.id,centerName:c.name,date:d,time:t,note:n,status:'Requested'});saveJSON('owAppointments',a);$('apptNote').value='';renderCustomerAppointments();alert('Appointment request '+c.name+' को भेज दी गई।')}
+function openAppointments(){$('customerAppointmentsPanel').classList.remove('hide');$('customerAppointmentsPanel').scrollIntoView({behavior:'smooth'});renderCustomerAppointments()}
+function renderCustomerAppointments(){const m=localStorage.getItem('owM')||'',a=readJSON('owAppointments',[]).filter(x=>x.m===m);$('customerAppointmentsList').innerHTML=a.length?a.slice().reverse().map(x=>`<div class="row"><div><b>${esc(x.centerName)}</b><br><small>${esc(x.date)} · ${esc(x.time)} · ${esc(x.note||'')}</small></div><span class="tag">${esc(x.status)}</span></div>`).join(''):'<p>No appointments.</p>'}
+function openPayments(){const m=localStorage.getItem('owM')||'',a=getApps().filter(x=>x.m===m);$('customerPaymentsPanel').classList.remove('hide');$('customerPaymentsPanel').scrollIntoView({behavior:'smooth'});$('customerPaymentsList').innerHTML=a.length?a.map(x=>`<div class="row"><div><b>${esc(x.s)}</b><br><small>${esc(x.id)} · ${esc(x.date)}</small></div><span class="tag">₹${Number(x.f||0)} · ${esc(x.st||'Pending')}</span></div>`).join(''):'<p>No payment records yet.</p>'}
+function submitComplaint(){const c=getCenters().find(x=>x.id===localStorage.getItem('owPreferredCenter')&&x.active),t=$('complaintText').value.trim();if(!c)return alert('पहले center select करें।');if(!t)return alert('Complaint लिखें।');const a=readJSON('owComplaints',[]);a.push({id:'CMP'+Date.now(),m:localStorage.getItem('owM')||'',centerId:c.id,centerName:c.name,text:t,date:new Date().toLocaleString(),status:'Open'});saveJSON('owComplaints',a);$('complaintText').value='';renderCustomerComplaints();addCustomerNotification(localStorage.getItem('owM')||'',`Complaint ${c.name} को भेजी गई।`);alert('Complaint center को भेज दी गई।')}
+function openComplaints(){$('customerComplaintsPanel').classList.remove('hide');$('customerComplaintsPanel').scrollIntoView({behavior:'smooth'});renderCustomerComplaints()}
+function renderCustomerComplaints(){const m=localStorage.getItem('owM')||'',a=readJSON('owComplaints',[]).filter(x=>x.m===m);$('customerComplaintsList').innerHTML=a.length?a.slice().reverse().map(x=>`<div class="row"><div><b>${esc(x.centerName)}</b><br>${esc(x.text)}<br><small>${esc(x.date)}</small></div><span class="tag">${esc(x.status)}</span></div>`).join(''):'<p>No complaints.</p>'}
+function submitReview(){const c=getCenters().find(x=>x.id===localStorage.getItem('owPreferredCenter')&&x.active),r=Number($('reviewRating').value),t=$('reviewText').value.trim();if(!c)return alert('पहले center select करें।');if(!t)return alert('Review लिखें।');const a=readJSON('owReviews',[]);a.push({id:'REV'+Date.now(),m:localStorage.getItem('owM')||'',centerId:c.id,centerName:c.name,rating:r,text:t,date:new Date().toLocaleString()});saveJSON('owReviews',a);$('reviewText').value='';renderCustomerReviews();alert('Review save हो गया।')}
+function openReviews(){$('customerReviewsPanel').classList.remove('hide');$('customerReviewsPanel').scrollIntoView({behavior:'smooth'});renderCustomerReviews()}
+function renderCustomerReviews(){const m=localStorage.getItem('owM')||'',a=readJSON('owReviews',[]).filter(x=>x.m===m);$('customerReviewsList').innerHTML=a.length?a.slice().reverse().map(x=>`<div class="row"><div><b>${'★'.repeat(Number(x.rating||0))}</b><br>${esc(x.text)}<br><small>${esc(x.centerName)} · ${esc(x.date)}</small></div></div>`).join(''):'<p>No reviews yet.</p>'}
+function repeatService(){const a=getApps().filter(x=>x.m===localStorage.getItem('owM'));if(!a.length)return alert('पहले कोई application करें।');const idx=getServices().findIndex(s=>s.n===a[a.length-1].s);if(idx>=0)startApplication(idx);else showCustomerServices()}
+function renderCustomerProfile(){const c=getCurrentCustomer();$('cpMobile').value=c.m||'';$('cpName').value=c.name||'';$('cpEmail').value=c.email||'';$('cpAadhaar').value=c.aadhaar||'';$('cpPin').value=c.pin||'';$('cpAddress').value=c.address||'';$('profileMobileView').textContent=c.name||c.m||'Customer';$('cpEmoji').value=c.emoji||'👤';renderCustomerAvatar(c)}
+function openCustomerProfile(){renderCustomerProfile();$('customerProfilePanel').classList.remove('hide');$('customerProfilePanel').scrollIntoView({behavior:'smooth'})}
+function saveCustomerProfile(){const m=localStorage.getItem('owM')||'',a=getCustomers(),i=a.findIndex(x=>x.m===m);if(i<0)return;a[i]={...a[i],name:$('cpName').value.trim(),email:$('cpEmail').value.trim(),aadhaar:$('cpAadhaar').value.trim(),pin:$('cpPin').value.trim(),address:$('cpAddress').value.trim(),emoji:$('cpEmoji').value};saveJSON('owCustomers',a);renderCustomerProfile();alert('Customer profile saved successfully')}
+function renderCustomerAvatar(c){const avatar=$('customerAvatar'),welcome=$('welcomeAvatar');if(c.photo){avatar.innerHTML=`<img src="${c.photo}" alt="Profile">`;welcome.innerHTML=`<img src="${c.photo}" alt="Profile">`}else{avatar.textContent=c.emoji||'👤';welcome.textContent=c.emoji||'👤'}$('welcomeCustomerName').textContent=c.name||'Customer Profile'}
+function previewCustomerEmoji(v){const m=localStorage.getItem('owM')||'',a=getCustomers(),i=a.findIndex(x=>x.m===m);if(i<0)return;a[i].emoji=v;a[i].photo='';saveJSON('owCustomers',a);renderCustomerAvatar(a[i])}
+function previewCustomerPhoto(input){const f=input.files?.[0];if(!f)return;if(!f.type.startsWith('image/'))return alert('केवल image file upload करें।');if(f.size>5*1024*1024)return alert('Image max 5 MB।');const r=new FileReader();r.onload=()=>{const m=localStorage.getItem('owM')||'',a=getCustomers(),i=a.findIndex(x=>x.m===m);if(i<0)return;a[i].photo=r.result;saveJSON('owCustomers',a);renderCustomerAvatar(a[i])};r.readAsDataURL(f)}
+
+function registerCenter(){const name=$('regCenterName').value.trim(),owner=$('regOwner').value.trim(),mobile=$('regMobile').value.trim(),pin=$('regPin').value.trim(),area=$('regArea').value.trim(),id=$('regId').value.trim(),pass=$('regPass').value,pass2=$('regPass2').value;if(!name||!owner||!/^[0-9]{10}$/.test(mobile)||!/^[0-9]{6}$/.test(pin)||!area||!/^[A-Za-z0-9_-]{4,24}$/.test(id))return alert('Center name, owner, 10 digit mobile, 6 digit PIN, address और valid Center ID भरें।');if(pass.length<6||pass!==pass2)return alert('Password minimum 6 characters और match होना चाहिए।');const a=getCenters();if(a.some(c=>c.id.toLowerCase()===id.toLowerCase()))return alert('यह Center ID पहले से मौजूद है।');a.push({id,name,owner,mobile,pin,area,active:true,password:pass,created:new Date().toLocaleString(),selfRegistered:true});saveCenters(a);$('centerId').value=id;$('centerPass').value=pass;centerLoginPage();alert('Center account बन गया। अब login करें।')}
+function centerLogin(){const id=$('centerId').value.trim(),p=$('centerPass').value,c=getCenters().find(x=>x.id.toLowerCase()===id.toLowerCase()&&x.password===p&&x.active);if(!c)return alert('Invalid Center ID/Password या center inactive है।');localStorage.setItem('owCenterLogin',c.id);hideAll();$('centerDash').classList.remove('hide');renderCenterDashboard()}
+function currentCenter(){return getCenters().find(c=>c.id===localStorage.getItem('owCenterLogin'))}
+function logoutCenter(){localStorage.removeItem('owCenterLogin');home()}
+function centerApplications(){const c=currentCenter();return c?getRequests().filter(x=>x.centerId===c.id):[]}
+function renderCenterDashboard(){const c=currentCenter();if(!c)return;const a=centerApplications();$('centerDashTitle').textContent=c.name;$('centerDashMeta').textContent=`Center ID: ${c.id} · ${c.area}`;$('centerReqCount').textContent=a.length;$('centerPending').textContent=a.filter(x=>x.status==='Pending'||x.status==='Processing').length;$('centerComplete').textContent=a.filter(x=>x.status==='Complete').length;$('centerCustomers').textContent=new Set(a.map(x=>x.m)).size;renderCenterRequests()}
+function renderCenterRequests(){const a=centerApplications();$('centerWorkList').innerHTML=a.length?a.slice().reverse().map(r=>`<div class="row" style="align-items:flex-start;flex-direction:column"><b>${esc(r.service)}</b><small>Customer: ${esc(r.m)} · ${esc(r.date)} · ${esc(r.id)}</small><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><select onchange="updateCenterRequest('${esc(r.id)}',this.value)"><option ${r.status==='Pending'?'selected':''}>Pending</option><option ${r.status==='Processing'?'selected':''}>Processing</option><option ${r.status==='Complete'?'selected':''}>Complete</option><option ${r.status==='Rejected'?'selected':''}>Rejected</option></select><button class="link" onclick="openCenterCustomerChat('${esc(r.m)}')">Message Customer</button></div>${(r.documents||[]).length?`<div class="doc-grid">${r.documents.map(d=>`<div class="doc-item"><b>${esc(d.name)}</b><img src="${d.data}"><a class="link" href="${d.data}" download="${esc(d.fileName||d.name)}">⬇️ View / Download</a></div>`).join('')}</div>`:'<small>No documents.</small>'}</div>`).join(''):'<p>No customer requests for this center yet.</p>'}
+function updateCenterRequest(id,status){const rq=getRequests(),r=rq.find(x=>x.id===id);if(!r)return;r.status=status;saveRequests(rq);const apps=getApps(),a=apps.find(x=>x.id===r.applicationId);if(a){a.st=status;saveApps(apps)}addCustomerNotification(r.m,`${r.service} application status: ${status}`);renderCenterDashboard();if(localStorage.getItem('owM')===r.m)renderApps();alert('Application status updated.')}
+function renderCenterCustomers(){const a=centerApplications(),m=[...new Set(a.map(x=>x.m))];$('centerWorkList').innerHTML=m.length?m.map(x=>`<div class="row"><div><b>📱 ${esc(x)}</b></div><span class="tag">${a.filter(r=>r.m===x).length} Requests</span></div>`).join(''):'<p>No customers yet.</p>'}
+function renderCenterServices(){$('centerWorkList').innerHTML=getServices().map(s=>`<div class="row"><div><b>${esc(s.n)}</b><br><small>₹${Number(s.f||0)} · ${esc(s.t||'')}</small></div><span class="tag">${esc(s.c||'')}</span></div>`).join('')}
+function openCenterProfile(){const c=currentCenter();if(!c)return;showCenterUtility('Center Profile',`<div class="profile-card"><div class="profile-avatar">${esc((c.name||'J').slice(0,1))}</div><div class="profile-info"><h3>${esc(c.name)}</h3><span class="tag">${c.active?'Active':'Inactive'}</span><p>${esc(c.area)}<br>Mobile: ${esc(c.mobile||'')}<br>PIN: ${esc(c.pin)}<br>Owner: ${esc(c.owner)}</p></div></div><button class="btn" onclick="openCenterAccount()">Account & Security</button>`)}
+function openCenterAccount(){const c=currentCenter();if(!c)return;showCenterUtility('Account & Security',`<div class="form"><input id="newCenterId" value="${esc(c.id)}" placeholder="New Center ID"><input id="newCenterPass" type="password" placeholder="New Password (min 6)"></div><button class="btn" onclick="saveCenterAccount()">Save Account</button>`)}
+function saveCenterAccount(){const c=currentCenter(),id=$('newCenterId').value.trim(),pass=$('newCenterPass').value;if(!c)return;if(!/^[A-Za-z0-9_-]{4,24}$/.test(id)||pass.length<6)return alert('Valid Center ID और 6+ character password दें।');const a=getCenters(),dup=a.some(x=>x.id.toLowerCase()===id.toLowerCase()&&x.id!==c.id);if(dup)return alert('यह Center ID मौजूद है।');const i=a.findIndex(x=>x.id===c.id);a[i].id=id;a[i].password=pass;saveCenters(a);localStorage.setItem('owCenterLogin',id);renderCenterDashboard();alert('Center account updated.')}
+function renderCenterMessages(){const c=currentCenter();if(!c)return;showCenterUtility('Customer Messages',`<div>${centerMessages().filter(x=>x.centerId===c.id).length?centerMessages().filter(x=>x.centerId===c.id).slice().reverse().map(x=>`<div class="row" style="align-items:flex-start;flex-direction:column"><b>${x.from==='customer'?'Customer':'Center'}: ${esc(x.m)}</b><div>${esc(x.text||'')}${x.image?`<br><img src="${x.image}" style="max-width:220px;border-radius:10px;margin-top:6px">`:''}</div><small>${esc(x.date)}</small>${x.from==='customer'?`<textarea id="reply_${esc(x.id)}" placeholder="Reply करें"></textarea><button class="btn" onclick="replyToCustomer('${esc(x.id)}','${esc(x.m)}')">Send Reply</button>`:''}</div>`).join(''):'<p>No customer messages.</p>'}</div>`)}
+function openCenterCustomerChat(customerId){const c=currentCenter();if(!c)return;const msgs=centerMessages().filter(x=>x.centerId===c.id&&x.m===customerId);showCenterUtility('Customer Chat',`<p><b>Customer:</b> ${esc(customerId)}</p><div>${msgs.length?msgs.map(x=>`<div class="row"><div><b>${x.from==='customer'?'Customer':'Center'}</b><br>${esc(x.text||'')}${x.image?`<br><img src="${x.image}" style="max-width:220px;border-radius:10px">`:''}</div><small>${esc(x.date)}</small></div>`).join(''):'<p>No messages yet.</p>'}</div><textarea id="centerReplyText" placeholder="Customer को reply करें"></textarea><button class="btn" onclick="sendCenterReply('${esc(customerId)}')">Send Reply</button>`)}
+async function sendCenterReply(customerId){const c=currentCenter(),t=$('centerReplyText').value.trim();if(!c||!t)return alert('Reply लिखें।');const a=centerMessages();a.push({id:'CM'+Date.now(),centerId:c.id,centerName:c.name,m:customerId,from:'center',text:t,image:'',fileName:'',date:new Date().toLocaleString()});saveJSON('owCenterMessages',a);addCustomerNotification(customerId,`${c.name} ने message भेजा।`);openCenterCustomerChat(customerId);alert('Reply भेज दिया गया।')}
+function replyToCustomer(messageId,customerId){const input=$('reply_'+messageId),t=input?.value.trim()||'';if(!t)return alert('Reply लिखें।');sendCenterReply(customerId)}
+function openCenterAppointments(){const c=currentCenter();if(!c)return;const a=readJSON('owAppointments',[]).filter(x=>x.centerId===c.id);showCenterUtility('Appointments',a.length?a.slice().reverse().map(x=>`<div class="row"><div><b>${esc(x.m)}</b><br><small>${esc(x.date)} · ${esc(x.time)} · ${esc(x.note||'')}</small></div><select onchange="updateAppointment('${esc(x.id)}',this.value)"><option ${x.status==='Requested'?'selected':''}>Requested</option><option ${x.status==='Confirmed'?'selected':''}>Confirmed</option><option ${x.status==='Completed'?'selected':''}>Completed</option><option ${x.status==='Rejected'?'selected':''}>Rejected</option></select></div>`).join(''):'<p>No appointments.</p>')}
+function updateAppointment(id,status){const a=readJSON('owAppointments',[]),i=a.findIndex(x=>x.id===id);if(i<0)return;a[i].status=status;saveJSON('owAppointments',a);addCustomerNotification(a[i].m,`${a[i].centerName} appointment status: ${status}`);openCenterAppointments()}
+function openCenterComplaints(){const c=currentCenter();if(!c)return;const a=readJSON('owComplaints',[]).filter(x=>x.centerId===c.id);showCenterUtility('Customer Complaints',a.length?a.slice().reverse().map(x=>`<div class="row"><div><b>${esc(x.m)}</b><br>${esc(x.text)}<br><small>${esc(x.date)}</small></div><select onchange="updateCenterComplaint('${esc(x.id)}',this.value)"><option ${x.status==='Open'?'selected':''}>Open</option><option ${x.status==='Processing'?'selected':''}>Processing</option><option ${x.status==='Resolved'?'selected':''}>Resolved</option></select></div>`).join(''):'<p>No complaints.</p>')}
+function updateCenterComplaint(id,status){const a=readJSON('owComplaints',[]),i=a.findIndex(x=>x.id===id);if(i<0)return;a[i].status=status;saveJSON('owComplaints',a);addCustomerNotification(a[i].m,`${a[i].centerName} complaint status: ${status}`);openCenterComplaints()}
+function openCenterStaff(){const c=currentCenter();if(!c)return;const key='owStaff_'+c.id,a=readJSON(key,[]);showCenterUtility('Staff Management',`<div class="form"><input id="staffName" placeholder="Staff Name"><input id="staffMobile" placeholder="Mobile"></div><button class="btn" onclick="addStaff()">Add Staff</button><div style="margin-top:14px">${a.length?a.map((x,i)=>`<div class="row"><div><b>${esc(x.name)}</b><br><small>${esc(x.mobile)}</small></div><button class="link" onclick="deleteStaff(${i})">Delete</button></div>`).join(''):'<p>No staff.</p>'}</div>`)}
+function addStaff(){const c=currentCenter(),n=$('staffName').value.trim(),m=$('staffMobile').value.trim();if(!c||!n||!m)return alert('Staff name और mobile दें।');const k='owStaff_'+c.id,a=readJSON(k,[]);a.push({name:n,mobile:m});saveJSON(k,a);openCenterStaff()}
+function deleteStaff(i){const c=currentCenter();if(!c)return;const k='owStaff_'+c.id,a=readJSON(k,[]);a.splice(i,1);saveJSON(k,a);openCenterStaff()}
+function openCenterReports(){const a=centerApplications();showCenterUtility('Center Reports',`<div class="stat-grid"><div class="stat">Total<b>${a.length}</b></div><div class="stat">Pending<b>${a.filter(x=>x.status==='Pending').length}</b></div><div class="stat">Processing<b>${a.filter(x=>x.status==='Processing').length}</b></div><div class="stat">Complete<b>${a.filter(x=>x.status==='Complete').length}</b></div></div>`) }
+function showCenterUtility(title,html){$('centerUtilityTitle').textContent=title;$('centerUtilityBody').innerHTML=html;$('centerUtilityPanel').classList.remove('hide');$('centerUtilityPanel').scrollIntoView({behavior:'smooth'})}
+
+function officer(){const pass=localStorage.getItem('owOfficerPass')||'2026';if($('oid').value.trim()==='Sarvjeet'&&$('op').value===pass){localStorage.setItem('owOfficer','1');hideAll();$('odash').classList.remove('hide');renderAdmin();officerHome()}else alert('Invalid Officer ID or Password.')}
+function logoutOfficer(){localStorage.removeItem('owOfficer');home()}
+function hideAdminPages(){['offServices','offApplications','offCustomers','offCenters','offDocuments','offNotifications','offUtility','offProfile','offSettings'].forEach(id=>$(id)?.classList.add('hide'));$('officerHome').classList.remove('hide')}
+function officerHome(){hideAdminPages()}
+function openOfficer(type){hideAdminPages();const map={services:'offServices',applications:'offApplications',customers:'offCustomers',centers:'offCenters',documents:'offDocuments',notifications:'offNotifications',profile:'offProfile',settings:'offSettings',payments:'offUtility',complaints:'offUtility',reviews:'offUtility',reports:'offUtility'};const id=map[type];if(!id)return;$(id).classList.remove('hide');if(type==='services')showEditServices();if(type==='applications')renderApplications();if(type==='customers')renderCustomers();if(type==='centers')renderCenterAdmin();if(type==='documents')renderAdminDocuments();if(type==='notifications')renderAdminNotifications();if(type==='payments'||type==='complaints'||type==='reviews'||type==='reports')renderAdminUtility(type);if(type==='settings')loadAdminSettings();}
+function renderAdmin(){const s=getServices(),a=getApps();$('sc').textContent=s.length;$('ac').textContent=a.length;$('pc').textContent=a.filter(x=>x.st==='Pending'||x.st==='Processing').length;$('cc').textContent=a.filter(x=>x.st==='Complete').length;renderCenterAdmin()}
+function showAddService(){$('addServiceBox').classList.remove('hide');$('editServicesBox').classList.add('hide')}
+function showEditServices(){$('editServicesBox').classList.remove('hide');$('addServiceBox').classList.add('hide');renderServiceManager()}
+function addService(){const name=$('sn').value.trim();if(!name)return alert('Service Name required.');const a=getServices();a.push({n:name,c:$('cat').value.trim(),f:Number($('fee').value||0),t:$('time').value.trim(),d:$('docs').value.trim(),x:$('desc').value.trim()});saveServices(a);['sn','cat','fee','time','docs','desc'].forEach(id=>$(id).value='');showEditServices();renderAdmin();renderServices();alert('Service added successfully.')}
+function renderServiceManager(){const a=getServices();$('os').innerHTML=a.map((x,i)=>`<div class="row"><div><b>${esc(x.n)}</b><br><small>${esc(x.c||'')} · ₹${Number(x.f||0)} · ${esc(x.t||'')}</small></div><div><button class="link" onclick="editService(${i})">✏️ Edit</button><button class="link" onclick="deleteService(${i})">🗑️ Delete</button></div></div>`).join('')}
+function editService(i){const s=getServices()[i];if(!s)return;$('editServiceIndex').value=i;$('esn').value=s.n||'';$('ecat').value=s.c||'';$('efee').value=s.f||0;$('etime').value=s.t||'';$('edocs').value=s.d||'';$('edesc').value=s.x||'';$('serviceEditor').classList.remove('hide');$('serviceEditor').scrollIntoView({behavior:'smooth'})}
+function saveEditedService(){const i=Number($('editServiceIndex').value),a=getServices();if(!a[i])return;const n=$('esn').value.trim();if(!n)return alert('Service Name required.');a[i]={n,c:$('ecat').value.trim(),f:Number($('efee').value||0),t:$('etime').value.trim(),d:$('edocs').value.trim(),x:$('edesc').value.trim()};saveServices(a);$('serviceEditor').classList.add('hide');renderServiceManager();renderAdmin();renderServices();alert('Service updated.')}
+function deleteService(i){const a=getServices();if(!a[i])return;if(!confirm('Delete service: '+a[i].n+' ?'))return;a.splice(i,1);saveServices(a);renderServiceManager();renderAdmin();renderServices();alert('Service deleted.')}
+function renderApplications(){$('apps').innerHTML=getApps().length?getApps().slice().reverse().map((x,ri)=>{const i=getApps().findIndex(y=>y.id===x.id);return `<div class="row" style="align-items:flex-start;flex-direction:column"><div><b>${esc(x.s)}</b><br><small>${esc(x.id)} · ${esc(x.m)} · ₹${Number(x.f||0)} · ${esc(x.centerName||'')}</small></div><select onchange="updateAdminAppStatus(${i},this.value)"><option ${x.st==='Pending'?'selected':''}>Pending</option><option ${x.st==='Processing'?'selected':''}>Processing</option><option ${x.st==='Complete'?'selected':''}>Complete</option><option ${x.st==='Rejected'?'selected':''}>Rejected</option></select>${(x.documents||[]).length?`<div class="doc-grid">${x.documents.map(d=>`<div class="doc-item"><b>${esc(d.name)}</b><img src="${d.data}"><a class="link" href="${d.data}" download="${esc(d.fileName||d.name)}">⬇️ View / Download</a></div>`).join('')}</div>`:''}</div>`}).join(''):'<p>No applications.</p>'}
+function updateAdminAppStatus(i,status){const a=getApps();if(!a[i])return;a[i].st=status;saveApps(a);addCustomerNotification(a[i].m,`Application ${a[i].id} status: ${status}`);renderApplications();renderAdmin();renderApps()}
+function renderCustomers(){$('customers').innerHTML=getCustomers().length?getCustomers().map(c=>{const count=getApps().filter(x=>x.m===c.m).length;return `<div class="row"><div><b>📱 ${esc(c.m)}</b><br><small>${esc(c.name||'No name')} · Registered ${esc(c.created||'')}</small></div><span class="tag">${count} Applications</span></div>`}).join(''):'<p>No customers yet.</p>'}
+function renderCenterAdmin(){const a=getCenters();$('centerAdminList').innerHTML=a.map((c,i)=>`<div class="row"><div><b>${esc(c.name)}</b><br><small>ID: ${esc(c.id)} · ${esc(c.owner)} · PIN ${esc(c.pin)} · ${esc(c.area)}</small></div><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="tag">${c.active?'Active':'Inactive'}</span><button class="link" onclick="editCenterAdmin(${i})">Edit</button><button class="link" onclick="toggleCenter(${i})">${c.active?'Deactivate':'Activate'}</button><button class="link" onclick="deleteCenterAdmin(${i})">Delete</button></div></div>`).join('')}
+function addCenter(){const name=$('cnName').value.trim(),owner=$('cnOwner').value.trim(),mobile=$('cnMobile').value.trim(),pin=$('cnPin').value.trim(),area=$('cnArea').value.trim(),id=$('cnId').value.trim()||('OW'+pin+Date.now().toString().slice(-4)),pass=$('cnPass').value||'2026';if(!name||!owner||!/^[0-9]{6}$/.test(pin)||!area)return alert('Center name, owner, PIN और address required.');if(mobile&&!/^\d{10}$/.test(mobile))return alert('Mobile 10 digit होना चाहिए।');if(!/^[A-Za-z0-9_-]{4,24}$/.test(id)||pass.length<6)return alert('Valid Center ID और 6+ character password रखें।');const a=getCenters();if(a.some(x=>x.id.toLowerCase()===id.toLowerCase()))return alert('Center ID पहले से मौजूद है।');a.push({id,name,owner,mobile,pin,area,active:true,password:pass,created:new Date().toLocaleString()});saveCenters(a);['cnName','cnOwner','cnMobile','cnPin','cnArea','cnId','cnPass'].forEach(k=>$(k).value='');renderCenterAdmin();alert(`Center created.\nID: ${id}\nPassword: ${pass}`)}
+function editCenterAdmin(i){const a=getCenters(),c=a[i];if(!c)return;const modal=$('editCenterModal');modal.classList.remove('hide');modal.innerHTML=`<div class="modal"><h2>Edit Janseva Kendra</h2><input id="mCenterName" value="${esc(c.name)}" placeholder="Center Name"><input id="mCenterOwner" value="${esc(c.owner)}" placeholder="Owner"><input id="mCenterMobile" value="${esc(c.mobile||'')}" maxlength="10" placeholder="Mobile"><input id="mCenterPin" value="${esc(c.pin)}" maxlength="6" placeholder="PIN"><input id="mCenterArea" value="${esc(c.area)}" placeholder="Address"><div style="display:flex;gap:8px;justify-content:flex-end"><button class="link" onclick="closeEditCenter()">Cancel</button><button class="btn" onclick="saveCenterEdit(${i})">Save Changes</button></div></div>`}
+function closeEditCenter(){$('editCenterModal').classList.add('hide')}
+function saveCenterEdit(i){const a=getCenters();if(!a[i])return;const name=$('mCenterName').value.trim(),owner=$('mCenterOwner').value.trim(),mobile=$('mCenterMobile').value.trim(),pin=$('mCenterPin').value.trim(),area=$('mCenterArea').value.trim();if(!name||!owner||!/^[0-9]{6}$/.test(pin)||!area||(mobile&&!/^\d{10}$/.test(mobile)))return alert('Center details सही भरें।');a[i]={...a[i],name,owner,mobile,pin,area};saveCenters(a);closeEditCenter();renderCenterAdmin();alert('Center updated.')}
+function toggleCenter(i){const a=getCenters();if(!a[i])return;a[i].active=!a[i].active;saveCenters(a);renderCenterAdmin()}
+function deleteCenterAdmin(i){const a=getCenters(),c=a[i];if(!c)return;if(!confirm(`Delete center "${c.name}"? Existing applications remain saved.`))return;a.splice(i,1);saveCenters(a);if(localStorage.getItem('owCenterLogin')===c.id)localStorage.removeItem('owCenterLogin');renderCenterAdmin()}
+function renderAdminDocuments(){const docs=[];getApps().forEach(a=>(a.documents||[]).forEach(d=>docs.push({...d,appId:a.id,m:a.m,service:a.s,date:a.date,centerName:a.centerName})));$('offDocumentsList').innerHTML=docs.length?docs.slice().reverse().map(d=>`<div class="doc-item"><b>${esc(d.name)}</b><br><small>${esc(d.service)} · ${esc(d.m)} · ${esc(d.centerName||'')}</small><img src="${d.data}"><a class="link" href="${d.data}" download="${esc(d.fileName||d.name)}">⬇️ View / Download</a></div>`).join(''):'<p>No documents.</p>'}
+function renderAdminNotifications(){const rows=[];getApps().forEach(a=>rows.push({date:a.date,text:`Application ${a.id} · ${a.s} · ${a.m}`}));readJSON('owComplaints',[]).forEach(x=>rows.push({date:x.date,text:`Complaint · ${x.m} · ${x.status}`}));$('offNotificationsList').innerHTML=rows.length?rows.slice().reverse().map(x=>`<div class="row"><div><b>${esc(x.text)}</b><br><small>${esc(x.date)}</small></div></div>`).join(''):'<p>No notifications.</p>'}
+function renderAdminUtility(type){const b=$('offUtilityContent');$('offUtilityTitle').textContent=type.charAt(0).toUpperCase()+type.slice(1);const apps=getApps(),complaints=readJSON('owComplaints',[]),reviews=readJSON('owReviews',[]),appts=readJSON('owAppointments',[]);if(type==='payments')b.innerHTML=apps.length?apps.map(x=>`<div class="row"><div><b>${esc(x.s)}</b><br><small>${esc(x.m)} · ${esc(x.id)}</small></div><span class="tag">₹${Number(x.f||0)} · ${esc(x.st||'Pending')}</span></div>`).join(''):'<p>No payment records.</p>';else if(type==='complaints')b.innerHTML=complaints.length?complaints.map((x,i)=>`<div class="row"><div><b>${esc(x.m)}</b><br>${esc(x.text)}<br><small>${esc(x.centerName||'')}</small></div><select onchange="updateAdminComplaint(${i},this.value)"><option ${x.status==='Open'?'selected':''}>Open</option><option ${x.status==='Processing'?'selected':''}>Processing</option><option ${x.status==='Resolved'?'selected':''}>Resolved</option></select></div>`).join(''):'<p>No complaints.</p>';else if(type==='reviews')b.innerHTML=reviews.length?reviews.map(x=>`<div class="row"><div><b>${'★'.repeat(Number(x.rating||0))}</b><br>${esc(x.text)}<br><small>${esc(x.centerName||'')}</small></div><small>${esc(x.m)}</small></div>`).join(''):'<p>No reviews.</p>';else b.innerHTML=`<div class="stat-grid"><div class="stat">Applications<b>${apps.length}</b></div><div class="stat">Centers<b>${getCenters().length}</b></div><div class="stat">Complaints<b>${complaints.length}</b></div><div class="stat">Appointments<b>${appts.length}</b></div></div>`}
+function updateAdminComplaint(i,status){const a=readJSON('owComplaints',[]);if(!a[i])return;a[i].status=status;saveJSON('owComplaints',a);renderAdminUtility('complaints')}
+function loadAdminSettings(){const b=readJSON('owBusiness',{});$('setName').value=b.name||'Online Wala';$('setMobile').value=b.mobile||'8273631684';$('setAddress').value=b.address||'Rooppura Road, Ayana, Auraiya'}
+function saveSettings(){saveJSON('owBusiness',{name:$('setName').value.trim()||'Online Wala',mobile:$('setMobile').value.trim(),address:$('setAddress').value.trim()});alert('Settings saved successfully.')}
+function changeOfficerPassword(){const p=$('newOfficerPass').value,c=$('confirmOfficerPass').value;if(!p||p.length<4)return alert('Password minimum 4 characters।');if(p!==c)return alert('Passwords match नहीं हैं।');localStorage.setItem('owOfficerPass',p);$('newOfficerPass').value='';$('confirmOfficerPass').value='';alert('Admin password changed.')}
+function showBusinessContact(){alert('ONLINE WALA\nMobile: 8273631684\nRooppura Road, Ayana, Auraiya')}
+function callCenter(id){const c=getCenters().find(x=>x.id===id);if(!c?.mobile)return alert('Center mobile available नहीं है।');location.href='tel:'+c.mobile}
+function openMap(area){window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(area||'Janseva Kendra'),'_blank')}
+function exportBackup(){const data={version:'OW-FIXED-1',createdAt:new Date().toISOString(),localStorage:{}};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k?.startsWith('ow'))data.localStorage[k]=localStorage.getItem(k)}const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='online-wala-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);alert('Backup file तैयार है।')}
+function importBackup(input){const f=input.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.localStorage)throw new Error('invalid');Object.entries(d.localStorage).forEach(([k,v])=>localStorage.setItem(k,v));alert('Backup restored. Page reload होगा।');setTimeout(()=>location.reload(),700)}catch(e){alert('Invalid backup file.')}};r.readAsText(f)}
+
+window.addEventListener('click',e=>{const p=$('menuPanel');if(p&&!p.contains(e.target)&&!e.target.closest('.menu'))p.classList.add('hide')});
+window.addEventListener('load',()=>{
+  getCenters();
+  loadAdminSettings();
+  if(localStorage.getItem('owOfficer')==='1'){hideAll();$('odash').classList.remove('hide');renderAdmin();officerHome()}
+  else if(localStorage.getItem('owCenterLogin')&&currentCenter()){hideAll();$('centerDash').classList.remove('hide');renderCenterDashboard()}
+  else if(localStorage.getItem('owM')&&sessionStorage.getItem('owCustomerSession')==='1')showC();
+  else {localStorage.removeItem('owM');home();}
+});
+</script>
+</body>
+</html>
